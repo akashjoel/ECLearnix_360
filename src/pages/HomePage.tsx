@@ -152,7 +152,7 @@ const HomePage = () => {
                 <Sparkles className="w-8 h-8 text-yellow-400 ml-3 sparkle-animation" style={{ animationDelay: '1s' }} />
               </div>
               <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold text-white mb-6 leading-tight">
-                <span className="inline-block float-animation">ECLearnix</span>
+                <span className="inline-block float-animation">LearnoAI</span>
                 <span className="block bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 bg-clip-text text-transparent float-animation" style={{ animationDelay: '0.5s' }}>
                   360°
                 </span>
@@ -225,7 +225,7 @@ const HomePage = () => {
       <section className="py-24 bg-gradient-to-br from-slate-800 via-purple-900 to-slate-800 relative overflow-hidden">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-5xl font-bold text-white mb-12">
-            Why Choose ECLearnix 360°?
+            Why Choose LearnoAI?
           </h2>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mt-16">
