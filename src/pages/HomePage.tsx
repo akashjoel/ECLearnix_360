@@ -1,126 +1,128 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { 
-  Brain, 
-  Video, 
-  Users, 
-  Award, 
-  Zap, 
-  BookOpen,
-  ArrowRight,
-  Play,
-  CheckCircle,
-  Star,
-  Sparkles,
-  Rocket,
-  Globe
-} from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
+import Custom3DModel from '../components/Custom3DModel';
+import Custom3DLaptop from '../components/Custom3DLaptop';
+import { 
+  Sparkles, 
+  Rocket, 
+  ArrowRight, 
+  CheckCircle, 
+  Star, 
+  Zap,
+  Users,
+  Globe,
+  Target,
+  Code,
+  Brain,
+  Video,
+  BookOpen,
+  Award
+} from 'lucide-react';
 
 const HomePage = () => {
   const { isAuthenticated } = useAuth();
+  const [showApplyModal, setShowApplyModal] = useState(false);
+  const [applySubmitted, setApplySubmitted] = useState(false);
+  const [applyForm, setApplyForm] = useState({ name: '', email: '', reason: '' });
 
-  const features = [
-    {
-      icon: <Brain className="w-8 h-8" />,
-      title: 'Live AI Visualizer',
-      description: 'Convert mentor speech into real-time educational diagrams during live classes',
-      color: 'from-blue-500 to-blue-600',
-      delay: '0s'
-    },
-    {
-      icon: <Video className="w-8 h-8" />,
-      title: 'AI Video Generator',
-      description: 'Transform recorded sessions into animated explainer videos automatically',
-      color: 'from-purple-500 to-purple-600',
-      delay: '0.1s'
-    },
-    {
-      icon: <BookOpen className="w-8 h-8" />,
-      title: 'Personalized Learning',
-      description: 'AI-powered content recommendations based on your learning style and goals',
-      color: 'from-green-500 to-green-600',
-      delay: '0.2s'
-    },
-    {
-      icon: <Users className="w-8 h-8" />,
-      title: 'Smart Mentoring',
-      description: 'Intelligent mentor-mentee matching for projects and career guidance',
-      color: 'from-orange-500 to-orange-600',
-      delay: '0.3s'
-    },
-    {
-      icon: <Zap className="w-8 h-8" />,
-      title: 'Microlearning',
-      description: 'Bite-sized skill modules perfect for busy professionals',
-      color: 'from-teal-500 to-teal-600',
-      delay: '0.4s'
-    },
-    {
-      icon: <Award className="w-8 h-8" />,
-      title: 'Certifications',
-      description: 'Track progress and earn recognized certificates for completed courses',
-      color: 'from-indigo-500 to-indigo-600',
-      delay: '0.5s'
-    }
-  ];
-
-  const userTypes = [
-    { name: 'Class 1-12 Students', count: '50K+', icon: '🎒', color: 'from-pink-400 to-rose-400' },
-    { name: 'College Students', count: '25K+', icon: '🎓', color: 'from-blue-400 to-indigo-400' },
-    { name: 'Faculty Members', count: '5K+', icon: '👨‍🏫', color: 'from-green-400 to-emerald-400' },
-    { name: 'Professionals', count: '30K+', icon: '💼', color: 'from-purple-400 to-violet-400' },
-  ];
-
-  React.useEffect(() => {
-    // Add floating animation keyframes
-    const style = document.createElement('style');
-    style.textContent = `
-      @keyframes float {
-        0%, 100% { transform: translateY(0px) rotate(0deg); }
-        33% { transform: translateY(-10px) rotate(1deg); }
-        66% { transform: translateY(5px) rotate(-1deg); }
-      }
-      @keyframes glow {
-        0%, 100% { box-shadow: 0 0 20px rgba(59, 130, 246, 0.3); }
-        50% { box-shadow: 0 0 40px rgba(139, 92, 246, 0.5); }
-      }
-      @keyframes sparkle {
-        0%, 100% { opacity: 0; transform: scale(0); }
-        50% { opacity: 1; transform: scale(1); }
-      }
-      .float-animation { animation: float 6s ease-in-out infinite; }
-      .glow-animation { animation: glow 3s ease-in-out infinite; }
-      .sparkle-animation { animation: sparkle 2s ease-in-out infinite; }
-    `;
-    document.head.appendChild(style);
-    return () => document.head.removeChild(style);
-  }, []);
+  const handleApplySubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setApplySubmitted(true);
+    setTimeout(() => {
+      setShowApplyModal(false);
+      setApplySubmitted(false);
+      setApplyForm({ name: '', email: '', reason: '' });
+    }, 2000);
+  };
 
   return (
-    <div className="min-h-screen">
-      {/* Enhanced Hero Section with 3D Anime Spline Viewer */}
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
+      {/* Apply Modal */}
+      {showApplyModal && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-3xl p-8 max-w-md w-full shadow-2xl transform transition-all duration-500 scale-100">
+            {!applySubmitted ? (
+              <>
+                <h3 className="text-2xl font-bold text-gray-800 mb-6">Apply for Internship</h3>
+                <form onSubmit={handleApplySubmit} className="space-y-6">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Name</label>
+                    <input
+                      type="text"
+                      required
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                      value={applyForm.name}
+                      onChange={(e) => setApplyForm({ ...applyForm, name: e.target.value })}
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                    <input
+                      type="email"
+                      required
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                      value={applyForm.email}
+                      onChange={(e) => setApplyForm({ ...applyForm, email: e.target.value })}
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Why do you want to join?</label>
+                    <textarea
+                      required
+                      rows={3}
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                      value={applyForm.reason}
+                      onChange={(e) => setApplyForm({ ...applyForm, reason: e.target.value })}
+                    />
+                  </div>
+                  <div className="flex gap-4">
+                    <button
+                      type="submit"
+                      className="flex-1 bg-gradient-to-r from-purple-600 to-pink-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transform hover:scale-105 transition-all duration-200"
+                    >
+                      Submit Application
+                    </button>
+                    <button
+                      type="button"
+                      className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg font-semibold hover:bg-gray-50 transition-colors"
+                      onClick={() => { setShowApplyModal(false); setApplyForm({ name: '', email: '', reason: '' }); }}
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </form>
+              </>
+            ) : (
+              <div className="text-center py-8">
+                <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <CheckCircle className="w-8 h-8 text-green-600" />
+                </div>
+                <h3 className="text-xl font-bold text-gray-800 mb-2">Application Submitted!</h3>
+                <p className="text-gray-600">We'll get back to you within 24 hours.</p>
+              </div>
+            )}
+            <button
+              className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors"
+              onClick={() => { setShowApplyModal(false); setApplySubmitted(false); setApplyForm({ name: '', email: '', reason: '' }); }}
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
+      {/* Enhanced Hero Section with Custom 3D Background */}
       <section className="relative h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
+        {/* Custom 3D Background */}
+        <div className="absolute inset-0 opacity-40">
+          <Custom3DModel />
+        </div>
+        
         {/* Animated Background Elements */}
         <div className="absolute inset-0 overflow-hidden">
           <div className="absolute top-20 left-20 w-72 h-72 bg-blue-500/20 rounded-full blur-3xl float-animation"></div>
           <div className="absolute bottom-20 right-20 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl float-animation" style={{ animationDelay: '2s' }}></div>
           <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-pink-500/20 rounded-full blur-3xl float-animation" style={{ animationDelay: '4s' }}></div>
-        </div>
-
-        {/* 3D Spline Viewer Background */}
-        <div className="absolute inset-0 z-0">
-          <div 
-            dangerouslySetInnerHTML={{
-              __html: `
-                <script type="module" src="https://unpkg.com/@splinetool/viewer@1.10.33/build/spline-viewer.js"></script>
-                <spline-viewer 
-                  url="https://prod.spline.design/HSnL8rhRJTdwkcia/scene.splinecode"
-                  style="width: 100%; height: 100%; background: transparent; opacity: 0.8;"
-                ></spline-viewer>
-              `
-            }}
-          />
         </div>
         
         {/* Floating Sparkles */}
@@ -177,165 +179,50 @@ const HomePage = () => {
                   className="group bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 text-white px-10 py-5 rounded-2xl font-bold text-xl hover:shadow-2xl hover:scale-110 transition-all duration-300 flex items-center justify-center glow-animation"
                 >
                   <Rocket className="mr-3 w-6 h-6 group-hover:animate-bounce" />
-                  Go to Dashboard
+                  Go To Dashboard
                   <ArrowRight className="ml-3 w-6 h-6 group-hover:translate-x-2 transition-transform" />
                 </Link>
               ) : (
                 <Link
                   to="/login"
+                  onClick={() => console.log('Login button clicked, navigating to /login')}
                   className="group bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 text-white px-10 py-5 rounded-2xl font-bold text-xl hover:shadow-2xl hover:scale-110 transition-all duration-300 flex items-center justify-center glow-animation"
                 >
                   <Rocket className="mr-3 w-6 h-6 group-hover:animate-bounce" />
-                  Start Learning Journey
+                  Go To Login Page
                   <ArrowRight className="ml-3 w-6 h-6 group-hover:translate-x-2 transition-transform" />
                 </Link>
               )}
-              <button className="group bg-white/10 backdrop-blur-md text-white px-10 py-5 rounded-2xl font-bold text-xl border-2 border-white/20 hover:bg-white/20 hover:border-white/40 hover:scale-105 transition-all duration-300 flex items-center justify-center">
-                <Play className="mr-3 w-6 h-6 group-hover:scale-125 transition-transform" />
-                Watch Demo
-                <Globe className="ml-3 w-6 h-6 group-hover:rotate-180 transition-transform duration-500" />
-              </button>
             </div>
-
-            {/* Feature Highlights */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
-              <div className="flex items-center justify-center space-x-2 text-cyan-300">
-                <Brain className="w-5 h-5" />
-                <span>Real-time AI Visualization</span>
-              </div>
-              <div className="flex items-center justify-center space-x-2 text-purple-300">
-                <Video className="w-5 h-5" />
-                <span>Animated Video Generation</span>
-              </div>
-              <div className="flex items-center justify-center space-x-2 text-pink-300">
-                <Users className="w-5 h-5" />
-                <span>Smart Mentor Matching</span>
-              </div>
+            
+            {/* Quick Stats */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-12">
+              {[
+                { number: '10K+', label: 'Active Students', icon: <Users className="w-6 h-6" /> },
+                { number: '95%', label: 'Success Rate', icon: <Star className="w-6 h-6" /> },
+                { number: '50+', label: 'Learning Paths', icon: <Target className="w-6 h-6" /> },
+                { number: '24/7', label: 'AI Support', icon: <Zap className="w-6 h-6" /> }
+              ].map((stat, index) => (
+                <div key={index} className="text-center group">
+                  <div className="inline-flex p-3 bg-white/10 rounded-xl mb-3 group-hover:scale-110 transition-transform duration-300">
+                    {stat.icon}
+                  </div>
+                  <div className="text-2xl font-bold text-white mb-1">{stat.number}</div>
+                  <div className="text-sm text-gray-300">{stat.label}</div>
+                </div>
+              ))}
             </div>
           </div>
         </div>
-      </section>
-
-      {/* Stats Section */}
-      <section className="py-20 bg-gradient-to-r from-slate-50 via-blue-50 to-purple-50">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
-              Trusted by Learners Worldwide
-            </h2>
-            <p className="text-xl text-gray-600">
-              Join our growing community of students, educators, and professionals
-            </p>
-          </div>
-          
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            {userTypes.map((type, index) => (
-              <div key={index} className="text-center group">
-                <div className={`mx-auto w-20 h-20 rounded-2xl bg-gradient-to-r ${type.color} flex items-center justify-center text-3xl mb-4 group-hover:scale-110 transition-transform duration-300 shadow-lg`}>
-                  {type.icon}
-                </div>
-                <div className="text-4xl font-bold text-gray-900 mb-2">{type.count}</div>
-                <div className="text-sm font-medium text-gray-600">{type.name}</div>
-              </div>
-            ))}
-          </div>
+        
+        {/* Custom 3D Laptop */}
+        <div className="absolute bottom-10 right-10 w-80 h-60 opacity-80 hidden lg:block">
+          <Custom3DLaptop />
         </div>
       </section>
 
       {/* Features Section */}
-      <section className="py-24 bg-gradient-to-br from-gray-50 via-white to-purple-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <div className="flex items-center justify-center mb-6">
-              <Sparkles className="w-8 h-8 text-purple-500 mr-3" />
-              <h2 className="text-5xl font-bold text-gray-900">
-                Powered by Advanced AI Technology
-              </h2>
-              <Sparkles className="w-8 h-8 text-purple-500 ml-3" />
-            </div>
-            <p className="text-2xl text-gray-600 max-w-4xl mx-auto">
-              Experience the future of education with our cutting-edge features designed for every type of learner
-            </p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {features.map((feature, index) => (
-              <div
-                key={index}
-                className="group bg-white rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all duration-500 hover:scale-105 border border-gray-100 relative overflow-hidden"
-                style={{ animationDelay: feature.delay }}
-              >
-                {/* Animated background gradient */}
-                <div className={`absolute inset-0 bg-gradient-to-r ${feature.color} opacity-0 group-hover:opacity-5 transition-opacity duration-500`}></div>
-                
-                <div className={`relative w-20 h-20 rounded-2xl bg-gradient-to-r ${feature.color} flex items-center justify-center text-white mb-6 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300 shadow-lg`}>
-                  {feature.icon}
-                </div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-4 group-hover:text-purple-600 transition-colors">
-                  {feature.title}
-                </h3>
-                <p className="text-gray-600 leading-relaxed text-lg">
-                  {feature.description}
-                </p>
-                
-                {/* Hover effect arrow */}
-                <div className="absolute bottom-6 right-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <ArrowRight className="w-6 h-6 text-purple-500" />
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Enhanced Integration Section */}
-      <section className="py-24 bg-gradient-to-r from-slate-900 via-purple-900 to-slate-900 relative overflow-hidden">
-        {/* Animated background */}
-        <div className="absolute inset-0">
-          <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl float-animation"></div>
-          <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl float-animation" style={{ animationDelay: '3s' }}></div>
-        </div>
-        
-        <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-5xl font-bold text-white mb-6">
-              Seamlessly Integrated
-            </h2>
-            <p className="text-2xl text-gray-300">
-              Works with your favorite tools and platforms
-            </p>
-          </div>
-          
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 items-center">
-            {['Firebase', 'GitHub', 'LinkedIn', 'Canva API', 'OpenAI', 'Whisper', 'Canvas LMS', 'Moodle'].map((tool, index) => (
-              <div key={index} className="group text-center p-8 bg-white/5 backdrop-blur-sm rounded-2xl hover:bg-white/10 transition-all duration-300 border border-white/10 hover:border-white/20">
-                <div className="text-2xl font-bold text-white group-hover:text-cyan-400 transition-colors">
-                  {tool}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Benefits Section */}
-      <section className="py-24 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 relative overflow-hidden">
-        {/* Floating elements */}
-        <div className="absolute inset-0">
-          {[...Array(15)].map((_, i) => (
-            <div
-              key={i}
-              className="absolute w-4 h-4 bg-white/20 rounded-full float-animation"
-              style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-                animationDelay: `${Math.random() * 6}s`,
-                animationDuration: `${4 + Math.random() * 4}s`
-              }}
-            />
-          ))}
-        </div>
-        
+      <section className="py-24 bg-gradient-to-br from-slate-800 via-purple-900 to-slate-800 relative overflow-hidden">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-5xl font-bold text-white mb-12">
             Why Choose ECLearnix 360°?
