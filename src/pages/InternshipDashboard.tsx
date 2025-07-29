@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Custom3DModel from '../components/Custom3DModel';
 import Custom3DLaptop from '../components/Custom3DLaptop';
+import Chatbot from '../components/Chatbot';
 import { 
   ChevronRight, 
   Users, 
@@ -626,6 +627,9 @@ const InternshipDashboard = () => {
           </div>
         </div>
       </footer>
+
+      {/* AI Chatbot */}
+      <Chatbot />
     </div>
   );
 };
