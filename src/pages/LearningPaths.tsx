@@ -8,50 +8,21 @@ import {
   Target,
   Play,
   CheckCircle,
-  Lock,
   Zap,
   Sparkles,
   TrendingUp,
-  Award,
-  Rocket,
-  Lightbulb,
-  Globe,
   Code,
-  Heart,
-  Eye,
-  Share2,
-  Brain,
-  Cpu,
-  Database,
-  Shield,
-  Wifi,
-  Cloud,
-  Layers,
-  GitBranch,
-  Palette,
-  Music,
-  Camera,
-  Video,
-  Mic,
-  BarChart3,
-  PieChart,
   Activity,
   ArrowUpRight,
   ArrowDownRight,
-  Minus,
-  Plus,
-  Infinity,
-  Zap as Lightning,
-  Smartphone
+  Eye,
+  Share2,
+  Heart
 } from 'lucide-react';
-import { useAuth } from '../contexts/AuthContext';
 
 const LearningPaths = () => {
-  const { user } = useAuth();
   const [selectedCategory, setSelectedCategory] = useState('recommended');
   const [hoveredPath, setHoveredPath] = useState<number | null>(null);
-  const [skillTreeVisible, setSkillTreeVisible] = useState(false);
-  const [selectedSkill, setSelectedSkill] = useState<string | null>(null);
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
@@ -163,29 +134,6 @@ const LearningPaths = () => {
     { name: 'Data Science', demand: 78, growth: '+45%', color: 'from-purple-500 to-pink-500', icon: <TrendingUp className="w-4 h-4" />, level: 'Expert', salary: '$95k', trend: 'up' },
     { name: 'Machine Learning', demand: 71, growth: '+52%', color: 'from-green-500 to-emerald-500', icon: <Zap className="w-4 h-4" />, level: 'Expert', salary: '$100k', trend: 'up' }
   ];
-
-  const skillTree = {
-    'Frontend': {
-      children: ['HTML', 'CSS', 'JavaScript', 'React', 'Vue', 'Angular'],
-      color: 'from-blue-500 to-cyan-500',
-      icon: <Palette className="w-6 h-6" />
-    },
-    'Backend': {
-      children: ['Node.js', 'Python', 'Java', 'C#', 'PHP', 'Go'],
-      color: 'from-green-500 to-emerald-500',
-      icon: <Database className="w-6 h-6" />
-    },
-    'Mobile': {
-      children: ['React Native', 'Flutter', 'Swift', 'Kotlin', 'Xamarin'],
-      color: 'from-purple-500 to-pink-500',
-      icon: <Smartphone className="w-6 h-6" />
-    },
-    'AI/ML': {
-      children: ['Python', 'TensorFlow', 'PyTorch', 'Scikit-learn', 'OpenAI'],
-      color: 'from-indigo-500 to-purple-500',
-      icon: <Brain className="w-6 h-6" />
-    }
-  };
 
   const filteredPaths = learningPaths.filter(path => 
     selectedCategory === 'recommended' ? 
